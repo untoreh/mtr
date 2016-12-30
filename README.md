@@ -70,9 +70,10 @@ size to try to make uniform requests.
 - Not all services supports all the languages, the group of services used is transparently trimmed to the ones that support the requested language pair.
 
 ## TODO/Improvements
-- In the [issues](/issues)
+In the [issues](https://github.com/untoreh/mtr/issues)
 
 ## Credits
+- [guzzle/guzzle](https://github.com/guzzle/guzzle) - _http client_
 - [Stichoza/google-translate-php](https://github.com/Stichoza/google-translate-php) - _google token generator_
 - [leodido/langcode-conv](https://github.com/leodido/langcode-conv) - _base for the language code converter_
 - [joecampo/random-user-agent](https://github.com/joecampo/random-user-agent) - _user-agent strings_
