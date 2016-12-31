@@ -91,7 +91,7 @@ class Mtr
         }
         if (!$srvLangs = apc_fetch("mtr_${srv}_langs")) {
             $srvLangs = $this->srv->$srv->getLangs();
-            apc_store($srvLangs, "mtr_${srv}_langs");
+            apc_store("mtr_${srv}_langs", $srvLangs);
         }
 
         foreach ($srvLangs as $l) {
@@ -206,13 +206,13 @@ class Mtr
         $this->ld = new LanguageCode();
 
         // generate services from the services dir
+        $this->srv = new \stdClass();
         if ($this->services = apc_fetch('mtr_services')) {
             foreach ($this->services as $name => $class) {
                 $this->srv->$name =
                     new $class($this, $this->gz, $this->txtrq, $this->ld);
             }
         } else {
-            $this->srv = new \stdClass();
             foreach (glob(dirname(__FILE__) . '/services/*.php') as $p) {
                 $name = pathinfo($p, PATHINFO_FILENAME);
                 $class = '\\' . __NAMESPACE__ . '\\' . $name;

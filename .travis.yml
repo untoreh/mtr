@@ -1,9 +1,10 @@
 dist: trusty
+sudo: required
 language: php
 php:
-  - '7.1'
-  - hhvm-nightly
+  - hhvm-3.12
 before_script:
+  - if [[ $TRAVIS_PHP_VERSION = "7.1" ]]; then phpenv config-add php.ini; fi
   - composer self-update
   - composer install --prefer-source --no-interaction --dev
 script:
