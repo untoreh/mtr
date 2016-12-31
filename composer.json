@@ -16,10 +16,13 @@
         "guzzlehttp/guzzle": ">=6.0.0",
         "campo/random-user-agent": ">=1.2.0"
     },
+  "require-dev": {
+    "phpunit/phpunit": "5.7.*",
+    "brianium/paratest": "dev-master"
+  },
     "autoload": {
         "psr-4": {
             "Mtr\\": [ "src/", "src/services/", "src/tools/" ]
         }
-    },
-    "license": "MIT"
+    }
 }

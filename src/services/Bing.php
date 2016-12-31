@@ -55,6 +55,7 @@ class Bing
         ]);
 
         list($inputs, $str_ar) = $this->genQ($input, 'genReq');
+
         $res = $this->reqResponse('POST', 'bing', $this->params['bing'], $inputs);
         foreach ($res as $re) {
             $translation[] = json_decode($re, true)['items'][0]['text'];

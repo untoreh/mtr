@@ -113,8 +113,10 @@ class Mtr
     {
         if (!$this->matrix = apc_fetch('mtr_matrix')) {
             foreach ($this->srv as $name => &$obj) {
-                foreach ($obj->getLangs() as $l) {
-                    $this->matrix[$this->ld->convert($l)][$name] = $l;
+                if ($obj->active === true) {
+                    foreach ($obj->getLangs() as $l) {
+                        $this->matrix[$this->ld->convert($l)][$name] = $l;
+                    }
                 }
             }
             apc_store('mtr_matrix', $this->matrix);
@@ -193,7 +195,7 @@ class Mtr
     function makeServices()
     {
         // http client
-        if ($this->options['request']) {
+        if (isset($this->options['request'])) {
             $this->httpOpts =
                 array_merge($this->httpOpts, $this->options['request']);
         }
@@ -210,6 +212,7 @@ class Mtr
                     new $class($this, $this->gz, $this->txtrq, $this->ld);
             }
         } else {
+            $this->srv = new \stdClass();
             foreach (glob(dirname(__FILE__) . '/services/*.php') as $p) {
                 $name = pathinfo($p, PATHINFO_FILENAME);
                 $class = '\\' . __NAMESPACE__ . '\\' . $name;

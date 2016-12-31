@@ -1648,14 +1648,14 @@ class LanguageCode
                 }
             }
         }
-        if (!$index) {
+        if (!isset($index)) {
             throw new \Exception("Language code $value not found.");
 
             return null;
         }
 
-        if (!$this->languageCode[$index]['iso639-1']) {
-            if (!$this->languageCode[$index]['code']) {
+        if (!isset($this->languageCode[$index]['iso639-1'])) {
+            if (!isset($this->languageCode[$index]['code'])) {
                 return false;
             } else {
                 return $this->languageCode[$index]['code'];

@@ -22,8 +22,6 @@ class Systran
             $this->active = false;
         }
         $this->misc['weight'] = 10;
-        $this->misc['systran_key'] =
-            '';
         $this->urls['systran'] =
             'https://systran-systran-platform-for-language-processing-v1.p.mashape.com/translation/text/translate';
         $this->urls['systranL'] =
