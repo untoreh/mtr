@@ -3,7 +3,7 @@ Multi language translator api wrapper in PHP, translate or compare strings or ar
 
 ## Install 
 ###### Dependencies
-  - Alternative PHP Cache (APC)
+  - APC USer Cache
  
 Using composer `composer require untoreh/mtr` on the command line, then include the autoload file in PHP
 ```php

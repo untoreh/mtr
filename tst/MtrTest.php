@@ -1,6 +1,6 @@
 <?php
-use PHPUnit\Framework\TestCase;
 use Mtr\Mtr;
+use PHPUnit\Framework\TestCase;
 
 class MtrTest
     extends
@@ -11,7 +11,19 @@ class MtrTest
 //        $options = [
 //            'systran' => ['key' => 'bumPX7NIxqmshawMILIXKJqBGTUjp1pVQu7jsn5MsDhsPyCku1']
 //        ];
-        $options = [];
+        if (getenv('TRAVIS')) {
+
+            $options = [
+                'request' => [
+                    'config' => [
+                        'curl' => [
+                            CURLOPT_SSLVERSION => CURL_SSLVERSION_TLSv1_1
+                        ]
+                    ]
+                ]
+            ];
+        }
+//        $options = [];
         $source = 'en';
         $target = 'de';
         $services = ['google', 'bing', 'yandex'];

@@ -1,28 +1,41 @@
 {
-    "name": "untoreh/mtr",
-    "description": "Multi api translator",
-    "type": "library",
-    "keywords": ["translate", "translator", "translation", "language", "google", "bing", "yandex", "api"],
-    "homepage": "https://github.com/untoreh/mtr",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "untoreh",
-            "email": "hello@unto.re",
-            "homepage": "https://unto.re"
-        }
-    ],
-    "require": {
-        "guzzlehttp/guzzle": ">=6.0.0",
-        "campo/random-user-agent": ">=1.2.0"
-    },
+  "name": "untoreh/mtr",
+  "description": "Multi api translator",
+  "type": "library",
+  "keywords": [
+    "translate",
+    "translator",
+    "translation",
+    "language",
+    "google",
+    "bing",
+    "yandex",
+    "api"
+  ],
+  "homepage": "https://github.com/untoreh/mtr",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "untoreh",
+      "email": "hello@unto.re",
+      "homepage": "https://unto.re"
+    }
+  ],
+  "require": {
+    "guzzlehttp/guzzle": ">=6.0.0",
+    "campo/random-user-agent": ">=1.2.0"
+  },
   "require-dev": {
     "phpunit/phpunit": "5.7.*",
     "brianium/paratest": "dev-master"
   },
-    "autoload": {
-        "psr-4": {
-            "Mtr\\": [ "src/", "src/services/", "src/tools/" ]
-        }
+  "autoload": {
+    "psr-4": {
+      "Mtr\\": [
+        "src/",
+        "src/services/",
+        "src/tools/"
+      ]
     }
+  }
 }

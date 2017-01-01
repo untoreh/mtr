@@ -9,6 +9,21 @@
  **/
 namespace Mtr;
 
+/*
+ * APC-APCu hhvm compatibility
+ */
+if (substr(phpversion(), -4) == 'hhvm') {
+    function apcu_store($k, $v)
+    {
+        apc_store($k, $v);
+    }
+
+    function apcu_fetch($k)
+    {
+        apc_fetch($k);
+    }
+}
+
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Handler\CurlHandler;
@@ -73,8 +88,7 @@ class Mtr
         }
 
         if ($this->arr = is_array($input)) {
-            return array_replace($input,
-                $this->srv->$service->translate($source, $target, $input));
+            return array_replace($input, $this->srv->$service->translate($source, $target, $input));
         } else {
             return $this->srv->$service->translate($source, $target, $input)[0];
         }
@@ -196,8 +210,7 @@ class Mtr
     {
         // http client
         if (isset($this->options['request'])) {
-            $this->httpOpts =
-                array_merge($this->httpOpts, $this->options['request']);
+            $this->httpOpts = array_merge($this->httpOpts, $this->options['request']);
         }
         $this->gz = new Client($this->httpOpts);
         // strings operator
@@ -209,15 +222,13 @@ class Mtr
         $this->srv = new \stdClass();
         if ($this->services = apcu_fetch('mtr_services')) {
             foreach ($this->services as $name => $class) {
-                $this->srv->$name =
-                    new $class($this, $this->gz, $this->txtrq, $this->ld);
+                $this->srv->$name = new $class($this, $this->gz, $this->txtrq, $this->ld);
             }
         } else {
             foreach (glob(dirname(__FILE__) . '/services/*.php') as $p) {
                 $name = pathinfo($p, PATHINFO_FILENAME);
                 $class = '\\' . __NAMESPACE__ . '\\' . $name;
-                $this->srv->$name =
-                    new $class($this, $this->gz, $this->txtrq, $this->ld);
+                $this->srv->$name = new $class($this, $this->gz, $this->txtrq, $this->ld);
                 $this->services[$name] = $class;
                 apcu_store('mtr_services', $this->services);
             }
