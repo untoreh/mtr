@@ -22,7 +22,7 @@ class Google
         $this->misc['splitGlue'] = '/ ?; ¶ ?; ?/';
         $this->urls['googleL'] = 'http://translate.google.com';
         $this->urls['google'] = 'http://translate.google.com/translate_a/single';
-        $this->cookies['google'] = apc_fetch('mtr_cookies_google');
+        $this->cookies['google'] = apcu_fetch('mtr_cookies_google');
         $this->params['google'] = [
             'headers' => [
                 'Host' => 'translate.google.com',

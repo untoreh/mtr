@@ -51,14 +51,14 @@ abstract class Ep
     private function defaults()
     {
         //default
-        $ua = apc_fetch('mtr_ua_rnd');
+        $ua = apcu_fetch('mtr_ua_rnd');
         if (!$ua) {
             $ua = UserAgent::random([
                 'os_type' => 'Windows',
                 'device_type' => 'Desktop',
                 'agent_name' => 'Chrome'
             ]);
-            apc_store('mtr_ua_rnd', $ua, 3600);
+            apcu_store('mtr_ua_rnd', $ua, 3600);
         }
         $this->params['default'] = [
             'headers' => [
@@ -84,7 +84,7 @@ abstract class Ep
             // generate the cookies
             $this->reqResponse('GET', $service . 'L',
                 ['cookies' => $this->cookies[$service]]);
-            apc_store('mtr_cookies_' . $service, $this->cookies[$service],
+            apcu_store('mtr_cookies_' . $service, $this->cookies[$service],
                 $this->ttl());
 
             return true;

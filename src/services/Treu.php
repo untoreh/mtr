@@ -20,9 +20,11 @@ class Treu
         parent::__construct($mtr, $gz, $txtrq, $ld);
 
         $this->misc['weight'] = 10;
+        $this->misc['glue'] = " \n¶\n ";
+        $this->misc['splitGlue'] = "/\s?¶\s?/";
         $this->urls['treuL'] = 'http://itranslate4.eu/api/';
         $this->urls['treu'] = 'http://itranslate4.eu/csa';
-        $this->cookies['treu'] = apc_fetch('mtr_cookies_treu');
+        $this->cookies['treu'] = apcu_fetch('mtr_cookies_treu');
         $this->params['treu'] = [
             'headers' => [
                 'Host' => 'itranslate4.eu',
@@ -126,7 +128,7 @@ class Treu
                 'Value' => 'en',
                 'Domain' => 'itranslate4.eu'
             ]));
-            apc_store('mtr_cookies_treu', $this->cookies['treu'], $this->ttl());
+            apcu_store('mtr_cookies_treu', $this->cookies['treu'], $this->ttl());
         }
         $input = $this->txtrq->pT($input, $this->mtr->arr, $this->misc['glue']);
     }

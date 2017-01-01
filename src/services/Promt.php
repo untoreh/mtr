@@ -22,7 +22,7 @@ class Promt
         $this->urls['promt'] =
             'http://www.online-translator.com/services/TranslationService.asmx/GetTranslateNew';
         $this->urls['promtL'] = 'http://www.online-translator.com/';
-        $this->cookies['promt'] = apc_fetch('mtr_cookies_promt');
+        $this->cookies['promt'] = apcu_fetch('mtr_cookies_promt');
         $this->params['promt'] = [
             'headers' => [
                 'Host' => 'www.online-translator.com',

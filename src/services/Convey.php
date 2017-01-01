@@ -23,7 +23,7 @@ class Convey
         $this->urls['conveyL'] = 'http://translation.conveythis.com';
         $this->urls['conveyL2'] =
             'http://ackuna.com/pages/ajax_translator_languages/google'; // can also be yandex or bing
-        $this->cookies['convey'] = apc_fetch('mtr_cookies_convey');
+        $this->cookies['convey'] = apcu_fetch('mtr_cookies_convey');
         $this->params['convey'] = [
             'timeout' => 60,
             'headers' => [

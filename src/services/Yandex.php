@@ -19,7 +19,7 @@ class Yandex
         parent::__construct($mtr, $gz, $txtrq, $ld);
 
         $this->misc['weight'] = 30;
-        $this->misc['yandexId'] = apc_fetch('mtr_yandex_id');
+        $this->misc['yandexId'] = apcu_fetch('mtr_yandex_id');
         $this->urls['yandexL'] =
             'https://translate.yandex.net/api/v1/tr.json/getLangs';
         $this->urls['yandex1'] = 'https://translate.yandex.com';
@@ -79,7 +79,7 @@ class Yandex
                 $sidRev[$key] = strrev($s);
             }
             $this->misc['yandexId'] = implode('.', $sidRev) . '-0-0';
-            apc_store('mtr_yandex_id', $this->misc['yandexId'], $this->ttl());
+            apcu_store('mtr_yandex_id', $this->misc['yandexId'], $this->ttl());
         }
 
         $input = $this->txtrq->pT($input, $this->mtr->arr, $this->misc['glue']);

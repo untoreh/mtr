@@ -21,7 +21,7 @@ class Multillect
         $this->misc['weight'] = 10;
         $this->urls['multillectL'] = 'https://translate.multillect.com';
         $this->urls['multillect'] = 'https://translate.multillect.com/form.json';
-        $this->cookies['multillect'] = apc_fetch('mtr_cookies_multillect');
+        $this->cookies['multillect'] = apcu_fetch('mtr_cookies_multillect');
         $this->params['multillect'] = [
             'headers' => [
                 'Host' => 'translate.multillect.com',

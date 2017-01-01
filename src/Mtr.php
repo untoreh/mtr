@@ -85,13 +85,13 @@ class Mtr
      */
     private function langToSrv($lang, $srv)
     {
-        if ($langts = apc_fetch("mtr_${srv}_langs_conv")) {
+        if ($langts = apcu_fetch("mtr_${srv}_langs_conv")) {
 
             return $langts[$lang];
         }
-        if (!$srvLangs = apc_fetch("mtr_${srv}_langs")) {
+        if (!$srvLangs = apcu_fetch("mtr_${srv}_langs")) {
             $srvLangs = $this->srv->$srv->getLangs();
-            apc_store("mtr_${srv}_langs", $srvLangs);
+            apcu_store("mtr_${srv}_langs", $srvLangs);
         }
 
         foreach ($srvLangs as $l) {
@@ -101,7 +101,7 @@ class Mtr
                 $cLang = $l;
             }
         }
-        apc_store("mtr_${srv}_langs_conv", $langts);
+        apcu_store("mtr_${srv}_langs_conv", $langts);
 
         return $cLang;
     }
@@ -111,7 +111,7 @@ class Mtr
      */
     private function langMatrix()
     {
-        if (!$this->matrix = apc_fetch('mtr_matrix')) {
+        if (!$this->matrix = apcu_fetch('mtr_matrix')) {
             foreach ($this->srv as $name => &$obj) {
                 if ($obj->active === true) {
                     foreach ($obj->getLangs() as $l) {
@@ -119,7 +119,7 @@ class Mtr
                     }
                 }
             }
-            apc_store('mtr_matrix', $this->matrix);
+            apcu_store('mtr_matrix', $this->matrix);
         }
     }
 
@@ -207,7 +207,7 @@ class Mtr
 
         // generate services from the services dir
         $this->srv = new \stdClass();
-        if ($this->services = apc_fetch('mtr_services')) {
+        if ($this->services = apcu_fetch('mtr_services')) {
             foreach ($this->services as $name => $class) {
                 $this->srv->$name =
                     new $class($this, $this->gz, $this->txtrq, $this->ld);
@@ -219,7 +219,7 @@ class Mtr
                 $this->srv->$name =
                     new $class($this, $this->gz, $this->txtrq, $this->ld);
                 $this->services[$name] = $class;
-                apc_store('mtr_services', $this->services);
+                apcu_store('mtr_services', $this->services);
             }
         }
     }

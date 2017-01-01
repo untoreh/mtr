@@ -23,7 +23,7 @@ class Frengly
         $this->urls['frenglyL2'] =
             'http://www.frengly.com/frengly/static/langs.json';
         $this->urls['frengly'] = 'http://www.frengly.com/frengly/data/translate/';
-        $this->cookies['frengly'] = apc_fetch('mtr_cookies_frengly');
+        $this->cookies['frengly'] = apcu_fetch('mtr_cookies_frengly');
         $this->params['frengly'] = [
             'headers' => [
                 'Host' => 'www.frengly.com',

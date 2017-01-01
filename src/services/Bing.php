@@ -24,7 +24,7 @@ class Bing
         $this->urls['bingL'] = 'http://www.bing.com/translator/';
         $this->urls['bing'] =
             'http://www.bing.com/translator/api/Translate/TranslateArray';
-        $this->cookies['bing'] = apc_fetch('mtr_cookies_bing');
+        $this->cookies['bing'] = apcu_fetch('mtr_cookies_bing');
         $this->params['bing'] = [
             'headers' => [
                 'Host' => 'www.bing.com',
