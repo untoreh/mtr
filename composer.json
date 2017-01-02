@@ -27,7 +27,8 @@
   },
   "require-dev": {
     "phpunit/phpunit": "5.7.*",
-    "brianium/paratest": "dev-master"
+    "brianium/paratest": "dev-master",
+    "satooshi/php-coveralls": "^1.0"
   },
   "autoload": {
     "psr-4": {

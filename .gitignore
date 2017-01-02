@@ -2,3 +2,4 @@ vendor/
 composer.lock
 README.html
 .idea/
+clover.xml
