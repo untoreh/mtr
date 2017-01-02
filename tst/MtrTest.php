@@ -61,6 +61,7 @@ class MtrTest
      */
     public function testGeneral()
     {
+        $results = [];
         $fields = $this->fields('all', 3);
         $mtr = new Mtr($fields['options']);
 
@@ -78,6 +79,7 @@ class MtrTest
      */
     public function testArrays()
     {
+        $results = [];
         $fields = $this->fields('short', 3);
         $mtr = new Mtr($fields['options']);
 
@@ -97,6 +99,7 @@ class MtrTest
      */
     public function testBing()
     {
+        $results = [];
         $fields = $this->fields('short', 3);
         $mtr = new Mtr($fields['options']);
 
@@ -113,6 +116,7 @@ class MtrTest
      */
     public function testConvey()
     {
+        $results = [];
         $fields = $this->fields('short', 3);
         $mtr = new Mtr($fields['options']);
 
@@ -130,6 +134,7 @@ class MtrTest
      */
     public function testFrengly()
     {
+        $results = [];
         $fields = $this->fields('short', 3);
         $mtr = new Mtr($fields['options']);
 
@@ -147,6 +152,7 @@ class MtrTest
      */
     public function testGoogle()
     {
+        $results = [];
         $fields = $this->fields('short', 3);
         $mtr = new Mtr($fields['options']);
 
@@ -164,6 +170,7 @@ class MtrTest
      */
     public function testMultillect()
     {
+        $results = [];
         $fields = $this->fields('short', 3);
         $mtr = new Mtr($fields['options']);
 
@@ -181,6 +188,7 @@ class MtrTest
      */
     public function testPromt()
     {
+        $results = [];
         $fields = $this->fields('short', 3);
         $mtr = new Mtr($fields['options']);
 
@@ -198,6 +206,7 @@ class MtrTest
      */
     public function testSdl()
     {
+        $results = [];
         $fields = $this->fields('short', 3);
         $mtr = new Mtr($fields['options']);
 
@@ -214,6 +223,7 @@ class MtrTest
      */
     public function testSystran()
     {
+        $results = [];
         $fields = $this->fields('short', 3);
         $mtr = new Mtr($fields['options']);
 
@@ -241,6 +251,7 @@ class MtrTest
      */
     public function testTreu()
     {
+        $results = [];
         $fields = $this->fields('short', 3);
         $mtr = new Mtr($fields['options']);
 
@@ -257,6 +268,7 @@ class MtrTest
      */
     public function testYandex()
     {
+        $results = [];
         $fields = $this->fields('short', 3);
         $mtr = new Mtr($fields['options']);
 
