@@ -1,5 +1,5 @@
 # Mtr
-Multi language translator api wrapper in PHP, translate or compare strings or arrays of strings with language pairs supported by multiple services.
+Multi language translator api wrapper in PHP, translate or compare strings or arrays of strings with language pairs supported by multiple [services](/src/services).
 
 ## Install 
 ###### Dependencies
