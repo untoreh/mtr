@@ -3,6 +3,8 @@ namespace Mtr;
 
 class TextReq
 {
+    public $rgxMain;
+
     function __construct()
     {
         $this->initRegex();
@@ -14,9 +16,11 @@ class TextReq
      *  larger strings, every terminal string in the returned array will be a
      *  request body.
      *
-     * @param string ,array $input text
-     *
+     * @param $input
+     * @param $arr
+     * @param $glue
      * @return array
+     * @internal param $string ,array $input text
      */
     public function pT($input, &$arr, &$glue)
     {

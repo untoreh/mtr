@@ -3,12 +3,18 @@ namespace Mtr;
 
 use GuzzleHttp\Client;
 
+/**
+ * @property TextReq txtrq
+ */
 class Multillect
     extends
     Ep
     implements
     Service
 {
+
+    public $mtr;
+    public $txtrq;
 
     public function __construct(
         Mtr &$mtr,

@@ -4,6 +4,9 @@ namespace Mtr;
 use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\SetCookie;
 
+/**
+ * @property TextReq txtrq
+ */
 class Treu
     extends
     Ep
@@ -11,6 +14,14 @@ class Treu
     Service
 {
 
+    public $mtr;
+
+    /*
+     * @param Mtr &$mtr
+     * @param TextReq &$txtrq
+     * @param Client &$gz
+     * @param LanguageCode &$ld
+     * */
     public function __construct(
         Mtr &$mtr,
         Client &$gz,

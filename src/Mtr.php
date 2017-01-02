@@ -15,22 +15,21 @@ namespace Mtr;
 if (substr(phpversion(), -4) == 'hhvm') {
     function apcu_store($k, $v)
     {
-        apc_store($k, $v);
+        return apc_store($k, $v);
     }
 
     function apcu_fetch($k)
     {
-        apc_fetch($k);
+        return apc_fetch($k);
     }
 }
 
 use GuzzleHttp\Client;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Handler\CurlHandler;
 
 /**
  * Multi-api translate
  *
+ * @property LanguageCode ld
  * PHP version hhvm
  */
 class Mtr
@@ -44,6 +43,14 @@ class Mtr
     public $glue;
     public $ep = null;
     public $merge = true;
+    public $splitGlue;
+    public $matrix;
+    public $txtrq;
+    public $srv;
+    public $httpOpts;
+    public $options;
+    public $target;
+    public $source;
 
     public function __construct($options = ['request' => []])
     {
@@ -64,13 +71,13 @@ class Mtr
      * @param $input
      * @param $service
      * @return string ,array
+     * @throws \Exception
      * @internal param $string ,array $input  the input text
-     *
      */
     public function tr($source, $target, $input, $service = null)
     {
         if (empty($input)) {
-            return;
+            return false;
         }
 
         $this->source = &$source;
@@ -88,7 +95,8 @@ class Mtr
         }
 
         if ($this->arr = is_array($input)) {
-            return array_replace($input, $this->srv->$service->translate($source, $target, $input));
+            return array_replace($input,
+                $this->srv->$service->translate($source, $target, $input));
         } else {
             return $this->srv->$service->translate($source, $target, $input)[0];
         }
@@ -108,6 +116,7 @@ class Mtr
             apcu_store("mtr_${srv}_langs", $srvLangs);
         }
 
+        $cLang = '';
         foreach ($srvLangs as $l) {
             $c = $this->ld->convert($l);
             $langts[$c] = $l;
@@ -126,7 +135,9 @@ class Mtr
     private function langMatrix()
     {
         if (!$this->matrix = apcu_fetch('mtr_matrix')) {
+
             foreach ($this->srv as $name => &$obj) {
+                /* @var Service|Ep $obj */
                 if ($obj->active === true) {
                     foreach ($obj->getLangs() as $l) {
                         $this->matrix[$this->ld->convert($l)][$name] = $l;
@@ -139,6 +150,7 @@ class Mtr
 
     private function pickService($inputServices)
     {
+        $services = [];
         if (!$inputServices) {
             foreach ($this->services as $name => $p) {
                 if (!$services[$name] = $this->srv->$name->misc['weight']) {
@@ -186,6 +198,8 @@ class Mtr
                 return $name;
             }
         }
+
+        return false;
     }
 
     function assignVariables(&$options)
@@ -210,7 +224,8 @@ class Mtr
     {
         // http client
         if (isset($this->options['request'])) {
-            $this->httpOpts = array_merge($this->httpOpts, $this->options['request']);
+            $this->httpOpts =
+                array_merge($this->httpOpts, $this->options['request']);
         }
         $this->gz = new Client($this->httpOpts);
         // strings operator
@@ -222,13 +237,15 @@ class Mtr
         $this->srv = new \stdClass();
         if ($this->services = apcu_fetch('mtr_services')) {
             foreach ($this->services as $name => $class) {
-                $this->srv->$name = new $class($this, $this->gz, $this->txtrq, $this->ld);
+                $this->srv->$name =
+                    new $class($this, $this->gz, $this->txtrq, $this->ld);
             }
         } else {
             foreach (glob(dirname(__FILE__) . '/services/*.php') as $p) {
                 $name = pathinfo($p, PATHINFO_FILENAME);
                 $class = '\\' . __NAMESPACE__ . '\\' . $name;
-                $this->srv->$name = new $class($this, $this->gz, $this->txtrq, $this->ld);
+                $this->srv->$name =
+                    new $class($this, $this->gz, $this->txtrq, $this->ld);
                 $this->services[$name] = $class;
                 apcu_store('mtr_services', $this->services);
             }

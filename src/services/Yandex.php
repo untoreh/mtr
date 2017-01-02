@@ -3,12 +3,18 @@ namespace Mtr;
 
 use GuzzleHttp\Client;
 
+/**
+ * @property TextReq txtrq
+ */
 class Yandex
     extends
     Ep
     implements
     Service
 {
+
+    public $mtr;
+    public $txtrq;
 
     public function __construct(
         Mtr &$mtr,
@@ -78,8 +84,12 @@ class Yandex
             foreach (explode('.', $SID[0]) as $key => $s) {
                 $sidRev[$key] = strrev($s);
             }
-            $this->misc['yandexId'] = implode('.', $sidRev) . '-0-0';
-            apcu_store('mtr_yandex_id', $this->misc['yandexId'], $this->ttl());
+            if (isset($sidRev)) {
+                $this->misc['yandexId'] = implode('.', $sidRev) . '-0-0';
+                apcu_store('mtr_yandex_id', $this->misc['yandexId'], $this->ttl());
+            } else {
+                throw new \Exception('Yandex preparation failed.');
+            }
         }
 
         $input = $this->txtrq->pT($input, $this->mtr->arr, $this->misc['glue']);

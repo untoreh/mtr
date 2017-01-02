@@ -3,12 +3,18 @@ namespace Mtr;
 
 use GuzzleHttp\Client;
 
+/**
+ * @property TextReq txtrq
+ */
 class Google
     extends
     Ep
     implements
     Service
 {
+    public $mtr;
+    public $txtrq;
+
     function __construct(
         Mtr &$mtr,
         Client &$gz,
@@ -51,8 +57,9 @@ class Google
         $this->misc['googleRegexes'] = ['/,+/' => ',', '/\[,/' => '[',];
     }
 
-    /** @noinspection PhpUnusedPrivateMethodInspection */
-
+    /**
+     * @return array
+     */
     public function getLangs()
     {
         preg_match_all('/value=([a-z]{2,3}(\-[A-Z]{2,4})?)>/',
@@ -68,18 +75,18 @@ class Google
     }
 
     /**
-     * @param $source
-     * @param $target
-     * @param $data
+     * @param array $params
      * @return array
+     * @internal param $source
+     * @internal param $target
+     * @internal param $data
      */
     public function genReq(array $params)
     {
         return [
             'body' => "q=" . urlencode($params['data']),
             'query' => [
-                'tk' => $this->generateToken($params['source'], $params['target'],
-                    $params['data'])
+                'tk' => $this->generateToken($params['data'])
             ]
         ];
     }
@@ -89,7 +96,7 @@ class Google
      *
      * @param string $source language
      * @param string $target language
-     * @param string $input text
+     * @param mixed $input text
      * @return string ,array
      * @internal param $epO
      */
@@ -110,6 +117,7 @@ class Google
 
             return $translation;
         }
+
         if ($this->mtr->arr) {
             $this->preReq($input);
         } else {
@@ -142,18 +150,15 @@ class Google
      *
      * Thanks to @helen5106 and @tehmaestro and few other cool guys
      * at https://github.com/Stichoza/google-translate-php/issues/32
-     */
-    /** @noinspection PhpUnusedParameterInspection */
-    /**
+     *
      * Generate and return a token.
      *
-     * @param string $source Source language
-     * @param string $target Target language
      * @param string $text Text to translate
-     *
      * @return mixed A token
+     * @internal param $target
+     * @internal param $source
      */
-    public function generateToken($source, $target, $text)
+    public function generateToken($text)
     {
         return $this->TL($text);
     }

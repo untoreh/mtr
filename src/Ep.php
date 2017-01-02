@@ -5,28 +5,34 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Promise;
 use GuzzleHttp\Cookie\CookieJar;
 use \Campo\UserAgent;
+use GuzzleHttp\Psr7\Response;
 
 
 /**
  * Endpoint generator
  *
+ *
+ * @property TextReq txtrq
+ * @property CookieJar cookies
  */
 abstract class Ep
 {
     public $urls;
     public $params;
-    public $cookies;
     public $misc;
+
+    /*
+     * @var boolean $active
+     */
+    public $active;
 
     /**
      *  D
      *
-     * @param string $source language
-     * @param string $target language
-     * @param string $input
      * @param Mtr $mtr
-     * @internal param $string ,array $input  text
-     *
+     * @param Client $gz
+     * @param TextReq $txtrq
+     * @param LanguageCode $ld
      */
     public function __construct(
         Mtr &$mtr,
@@ -76,6 +82,7 @@ abstract class Ep
     /**
      * Generate cookies
      * @param $service
+     * @return bool
      */
     public function genC($service)
     {
@@ -86,9 +93,9 @@ abstract class Ep
                 ['cookies' => $this->cookies[$service]]);
             apcu_store('mtr_cookies_' . $service, $this->cookies[$service],
                 $this->ttl());
-
-            return true;
         }
+
+        return true;
     }
 
     /**
@@ -180,6 +187,8 @@ abstract class Ep
     {
         if ($this->active) {
             return true;
+        } else {
+            return false;
         }
     }
 
@@ -194,6 +203,7 @@ abstract class Ep
      * @param array $options list
      *
      * return array
+     * @return array
      */
     public function options($options)
     {
@@ -202,12 +212,13 @@ abstract class Ep
 
     /**
      *  Call the api
+     *
+     * @param $type
      * @param string $service name
      * @param array $options list
      * @param array $inputs
      * @return array|bool
      * @internal param array $input multiple queries
-     *
      */
     public function reqResponse(
         $type,
@@ -229,6 +240,7 @@ abstract class Ep
                             array_merge_recursive($this->options($options), $in));
                 }
                 $results = Promise\unwrap($promises);
+                /* @var Response $res */
                 foreach ($results as $key => $res) {
                     $strRes = (string)$res->getBody();
                     if ($res->getStatusCode() === 200) {

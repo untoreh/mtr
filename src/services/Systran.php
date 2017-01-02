@@ -3,12 +3,19 @@ namespace Mtr;
 
 use GuzzleHttp\Client;
 
+/**
+ * @property TextReq txtrq
+ */
 class Systran
     extends
     Ep
     implements
     Service
 {
+
+    public $mtr;
+    public $txtrq;
+    public $active;
 
     public function __construct(
         Mtr &$mtr,
@@ -70,6 +77,7 @@ class Systran
 
     function getLangs()
     {
+        $langs = [];
         $this->params['systran']['query'] = ['target' => 'en'];
         foreach (json_decode($this->reqResponse('GET', 'systranL',
             $this->params['systran']), true)['languagePairs'] as $re) {

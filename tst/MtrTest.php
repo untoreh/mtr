@@ -11,19 +11,8 @@ class MtrTest
 //        $options = [
 //            'systran' => ['key' => 'bumPX7NIxqmshawMILIXKJqBGTUjp1pVQu7jsn5MsDhsPyCku1']
 //        ];
-        if (getenv('TRAVIS')) {
 
-            $options = [
-                'request' => [
-                    'config' => [
-                        'curl' => [
-                            CURLOPT_SSLVERSION => CURL_SSLVERSION_TLSv1_1
-                        ]
-                    ]
-                ]
-            ];
-        }
-//        $options = [];
+        $options = [];
         $source = 'en';
         $target = 'de';
         $services = ['google', 'bing', 'yandex'];

@@ -2,13 +2,21 @@
 namespace Mtr;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Cookie\CookieJar;
 
+/**
+ * @property TextReq txtrq
+ * @property CookieJar $cookies
+ */
 class Convey
     extends
     Ep
     implements
     Service
 {
+
+    public $txtrq;
+    public $mtr;
 
     public function __construct(
         Mtr &$mtr,
@@ -78,6 +86,7 @@ class Convey
 
     function getLangs()
     {
+        $langs = [];
         foreach (json_decode($this->reqResponse('GET', 'conveyL2'), true) as $l) {
             $langs[] = $l['Google'];
         }

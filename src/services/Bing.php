@@ -3,12 +3,18 @@ namespace Mtr;
 
 use GuzzleHttp\Client;
 
+
+/**
+ * @property TextReq txtrq
+ */
 class Bing
     extends
     Ep
     implements
     Service
 {
+
+    public $mtr;
 
     function __construct(
         Mtr &$mtr,

@@ -1650,8 +1650,6 @@ class LanguageCode
         }
         if (!isset($index)) {
             throw new \Exception("Language code $value not found.");
-
-            return null;
         }
 
         if (!isset($this->languageCode[$index]['iso639-1'])) {
