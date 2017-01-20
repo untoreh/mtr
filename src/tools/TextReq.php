@@ -36,13 +36,13 @@ class TextReq
                     [$key => $this->splitP($input[$key], $this->rgxMain)];
                 $p++;
             } elseif ($chars + $strl > 1024) {
-                foreach ($parts as $key) {
-                    $arr_input[$p][$key] = &$input[$key];
+                foreach ($parts as $kp) {
+                    $arr_input[$p][$kp] = &$input[$kp];
                 }
                 $arr_input[$p]['s'] = implode($glue, $arr_input[$p]);
                 $p++;
-                $chars = 0;
-                $parts = [];
+                $chars = strl;
+                $parts = [key];
             } else {
                 $chars += $strl;
                 $parts[] = $key;
