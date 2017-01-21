@@ -41,12 +41,11 @@ class TextReq
                 }
                 $arr_input[$p]['s'] = implode($glue, $arr_input[$p]);
                 $p++;
-                $chars = strl;
-                $parts = [key];
+                $chars = $strl;
+                $parts = [$key];
             } else {
                 $chars += $strl;
                 $parts[] = $key;
-                $a++;
             }
         }
         if ($chars > 0) {
@@ -90,7 +89,7 @@ class TextReq
         //     '\n',
         //     ''
         // ]);
-        $this->rgxMain = '/([\S\s]{1,1000}[\.\;\:\,\!\?\Z][\s]?)/m'
+        $this->rgxMain = '/([\S\s]{1,1000}[\.\;\:\,\!\?\Z][\s]?)/m';
     }
 
     // private function multiRegex(
