@@ -77,30 +77,31 @@ class TextReq
 
     private function initRegex()
     {
-        $this->rgxMain = $this->multiRegex('[\S\s]{1,1022}', [
-            '\.\s',
-            '\;\s',
-            '\:\s',
-            '\,\s',
-            '\n\s',
-            '\.',
-            '\;',
-            '\:',
-            '\,',
-            '\n',
-            ''
-        ]);
+        // $this->rgxMain = $this->multiRegex('[\S\s]{1,1022}', [
+        //     '\.\s',
+        //     '\;\s',
+        //     '\:\s',
+        //     '\,\s',
+        //     '\n\s',
+        //     '\.',
+        //     '\;',
+        //     '\:',
+        //     '\,',
+        //     '\n',
+        //     ''
+        // ]);
+        $this->rgxMain = '/([\S\s]{1,1000}[\.\;\:\,\!\?\Z][\s]?)/m'
     }
 
-    private function multiRegex(
-        $const,
-        $vars
-    ) {
-        $frags = [];
-        foreach ($vars as $r) {
-            $frags[] = $const . $r;
-        }
+    // private function multiRegex(
+    //     $const,
+    //     $vars
+    // ) {
+    //     $frags = [];
+    //     foreach ($vars as $r) {
+    //         $frags[] = $const . $r;
+    //     }
 
-        return '/(' . implode('|', $frags) . ')/m';
-    }
+    //     return '/(' . implode('|', $frags) . ')/m';
+    // }
 }
