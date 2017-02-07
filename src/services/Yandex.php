@@ -35,10 +35,10 @@ class Yandex
             'headers' => [
                 'Host' => 'translate.yandex.net',
                 'Accept' => '*/*',
-                'Accept-Language=> en-US,en;q=0.5',
-                'Accept-Encoding=> gzip, deflate, br',
+                'Accept-Language' => 'en-US,en;q=0.5',
+                'Accept-Encoding' => 'gzip, deflate, br',
                 'Referer' => 'https=>//translate.yandex.com/',
-                'Content-Type=> application/x-www-form-urlencoded',
+                'Content-Type' => 'application/x-www-form-urlencoded',
                 'Origin' => 'https=>//translate.yandex.com',
                 'Connection' => 'keep-alive'
             ],
