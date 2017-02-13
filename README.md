@@ -1,5 +1,4 @@
 # Mtr
-[![Latest Stable Version](https://poser.pugx.org/untoreh/mtr/v/stable)](https://packagist.org/packages/untoreh/mtr)
 [![Build Status](https://travis-ci.org/untoreh/mtr.svg?branch=master)](https://travis-ci.org/untoreh/mtr)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/untoreh/mtr/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/untoreh/mtr/?branch=master)
 [![Dependency Status](https://gemnasium.com/badges/github.com/untoreh/mtr.svg)](https://gemnasium.com/github.com/untoreh/mtr)
