@@ -3,7 +3,6 @@
 [![Build Status](https://travis-ci.org/untoreh/mtr.svg?branch=master)](https://travis-ci.org/untoreh/mtr)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/untoreh/mtr/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/untoreh/mtr/?branch=master)
 [![Dependency Status](https://gemnasium.com/badges/github.com/untoreh/mtr.svg)](https://gemnasium.com/github.com/untoreh/mtr)
-[![License](https://poser.pugx.org/untoreh/mtr/license)](https://github.com/untoreh/mtr/blob/master/LICENSE)
 
 Multi language translator api wrapper in PHP, translate or compare strings or arrays of strings with language pairs supported by multiple [services](/src/services).
 
