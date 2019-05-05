@@ -73,8 +73,8 @@ abstract class Ep
             'query' => []
         ];
 
-        $this->misc['glue'] = &$this->mtr->glue;
-        $this->misc['splitGlue'] = &$this->mtr->splitGlue;
+        $this->misc['glue'] = $this->mtr->glue;
+        $this->misc['splitGlue'] = $this->mtr->splitGlue;
 
         $this->active = true;
     }
@@ -112,26 +112,35 @@ abstract class Ep
         $str_ar = []; // 1 for string, 0 for array
         $inputs = [];
         foreach ($input as $key => $input_part) {
-            if (count($input_part) > 1) { // we pass the imploded 's' str
-                $str_ar[$key] = array_keys($input_part);
+            if (is_array($input_part)) {
+                if ( count($input_part) > 1) { // we pass the imploded 's' str
+                    $str_ar[$key] = array_keys($input_part);
+                    $inputs[] = $this->$genReqFun([
+                        'source' => &$this->mtr->source,
+                        'target' => &$this->mtr->target,
+                        'data' => &$input_part['s']
+                    ]);
+                } else {
+                    // this runs once
+                    foreach ($input_part as $k => $input_frag) {
+                        $str_ar[$key] = $k;
+                        foreach ($input_frag as $frag) {
+                            $inputs[] = $this->$genReqFun([
+                                'source' => &$this->mtr->source,
+                                'target' => &$this->mtr->target,
+                                'data' => &$frag
+                            ]);
+                        }
+                    }
+                }
+            } else {
                 $inputs[] = $this->$genReqFun([
                     'source' => &$this->mtr->source,
                     'target' => &$this->mtr->target,
-                    'data' => &$input_part['s']
+                    'data' => &$input_part
                 ]);
-            } else {
-                // this runs once
-                foreach ($input_part as $k => $input_frag) {
-                    $str_ar[$key] = $k;
-                    foreach ($input_frag as $frag) {
-                        $inputs[] = $this->$genReqFun([
-                            'source' => &$this->mtr->source,
-                            'target' => &$this->mtr->target,
-                            'data' => &$frag
-                        ]);
-                    }
-                }
             }
+
         }
 
         return [$inputs, $str_ar];
@@ -235,6 +244,13 @@ abstract class Ep
 //                    $dbg = array_merge_recursive($this->options($options), $in);
 //                    $url = $this->urls[$service];
 //                    xdebug_break();
+                    // error_log(print_r($this->urls[$service], 1));
+                    // error_log(print_r(array_merge_recursive($this->options($options), $in), 1));
+                    // exit;
+                    // $stuff = $this->gz->request($type, $this->urls[$service],
+                    //                             array_merge_recursive($this->options($options), $in));
+                    // error_log(print_r((string)$stuff->getBody(), 1));
+
                     $promises[] =
                         $this->gz->requestAsync($type, $this->urls[$service],
                             array_merge_recursive($this->options($options), $in));

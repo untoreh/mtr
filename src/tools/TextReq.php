@@ -54,7 +54,6 @@ class TextReq
             }
             $arr_input[$p]['s'] = implode($glue, $arr_input[$p]);
         }
-
         return $arr_input;
     }
 

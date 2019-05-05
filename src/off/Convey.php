@@ -27,8 +27,8 @@ class Convey
         parent::__construct($mtr, $gz, $txtrq, $ld);
 
         $this->misc['weight'] = 10;
-        $this->urls['convey'] = 'http://ackuna.com/pages/ajax_translate';
-        $this->urls['conveyL'] = 'http://translation.conveythis.com';
+        $this->urls['convey'] = 'https://www.conveythis.com/translation/';
+        $this->urls['conveyL'] = 'https://www.conveythis.com/translation/';
         $this->urls['conveyL2'] =
             'http://ackuna.com/pages/ajax_translator_languages/google'; // can also be yandex or bing
         $this->cookies['convey'] = apcu_fetch('mtr_cookies_convey');
@@ -39,8 +39,8 @@ class Convey
                 'Accept' => '*/*',
                 'Accept-Language' => 'en-US,en;q=0.5',
                 'Accept-Encoding' => 'gzip, deflate',
-                'Referer' => 'http://translation.conveythis.com/',
-                'Origin' => 'http://translation.conveythis.com',
+                'Referer' => 'https://www.conveythis.com/translation/',
+                'Origin' => 'https://www.conveythis.com/translation/',
                 'Connection' => 'keep-alive',
             ],
             'query' => [

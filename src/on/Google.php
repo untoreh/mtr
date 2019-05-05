@@ -25,9 +25,9 @@ class Google
 
         $this->misc['weight'] = 30;
         $this->misc['glue'] = ' ; ¶ ; ';
-        $this->misc['splitGlue'] = '/ ?; ¶ ?; ?/';
-        $this->urls['googleL'] = 'http://translate.google.com';
-        $this->urls['google'] = 'http://translate.google.com/translate_a/single';
+        $this->misc['splitGlue'] = '/\s?;\s?¶\s?;?\s?/';
+        $this->urls['googleL'] = 'https://translate.google.com';
+        $this->urls['google'] = 'https://translate.google.com/translate_a/single';
         $this->cookies['google'] = apcu_fetch('mtr_cookies_google');
         $this->params['google'] = [
             'headers' => [
@@ -62,13 +62,12 @@ class Google
      */
     public function getLangs()
     {
-        preg_match_all('/value=([a-z]{2,3}(\-[A-Z]{2,4})?)>/',
+        preg_match_all("/{code:\s?\s?'([a-z]{2,3}(\-[A-Z]{2,4})?)'/",
             $this->reqResponse('GET', 'googleL'), $matches);
-
         return array_unique($matches[1]);
     }
 
-    public function preReq(array &$input)
+    public function preReq(&$input)
     {
         $this->genC('google');
         $input = $this->txtrq->pT($input, $this->mtr->arr, $this->misc['glue']);
@@ -118,11 +117,7 @@ class Google
             return $translation;
         }
 
-        if ($this->mtr->arr) {
-            $this->preReq($input);
-        } else {
-            return false;
-        }
+        $this->preReq($input);
         $bodyJson = null;
 
         $this->params['google'] =
@@ -292,4 +287,3 @@ class Google
         return false;
     }
 }
-

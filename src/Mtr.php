@@ -171,7 +171,7 @@ class Mtr
             }
         }
 
-        foreach ($inputServices as $k => $v) {
+        foreach ((array) $inputServices as $k => $v) {
             if (is_string($k)) {
                 $services[ucfirst($k)] = $v;
             } else {
@@ -182,8 +182,8 @@ class Mtr
             }
         }
         foreach ($services as $n => $w) {
-            if (!$this->matrix[$this->source][$n] ||
-                !$this->matrix[$this->target][$n]
+            if (!isset($this->matrix[$this->source][$n]) ||
+                !isset($this->matrix[$this->target][$n])
             ) {
                 unset($services[$n]);
             }
