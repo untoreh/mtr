@@ -33,7 +33,7 @@ class Sdl
                 'Host' => 'api.freetranslation.com',
                 'Accept' => 'application/json, text/javascript, */*; q=0.01',
                 'Accept-Language' => 'en-US,en;q=0.5',
-                'Accept-Encoding' => 'gzip, deflate, br',
+                'Accept-Encoding' => 'gzip, deflate',
                 'Referer' => 'https://www.freetranslation.com/',
                 'Content-Type' => 'application/json',
                 'Origin' => 'https://www.freetranslation.com',
@@ -44,11 +44,7 @@ class Sdl
 
     function translate($source, $target, $input)
     {
-        if ($this->mtr->arr) {
-            $this->preReq($input);
-        } else {
-            return false;
-        }
+        $this->preReq($input);
 
         $this->params['sdl']['json'] = ['from' => $source, 'to' => $target];
 
@@ -68,7 +64,7 @@ class Sdl
         return ['json' => ['text' => $params['data']]];
     }
 
-    function preReq(array &$input)
+    function preReq(&$input)
     {
         $input = $this->txtrq->pT($input, $this->mtr->arr, $this->misc['glue']);
     }

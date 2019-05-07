@@ -17,6 +17,9 @@ class Systran
     public $txtrq;
     public $active;
 
+    private $service = 'systran';
+    private $limit = 1000;
+
     public function __construct(
         Mtr &$mtr,
         Client &$gz,
@@ -28,16 +31,17 @@ class Systran
         if (!$this->misc['systran_key'] = &$this->mtr->options['systran']['key']) {
             $this->active = false;
         }
+        $this->txtrq->setRegex($this->service, $this->limit);
         $this->misc['weight'] = 10;
         $this->urls['systran'] =
-            'https://systran-systran-platform-for-language-processing-v1.p.mashape.com/translation/text/translate';
+            'https://api-platform.systran.net/translation/text/translate';
         $this->urls['systranL'] =
-            'https://systran-systran-platform-for-language-processing-v1.p.mashape.com/translation/supportedLanguages';
+            'https://api-platform.systran.net/translation/supportedLanguages';
         $this->params['systran'] = [
             'headers' => [
-                "X-Mashape-Key" => $this->misc['systran_key'],
                 "Accept" => "application/json"
-            ]
+            ],
+            'query' => ['key' => $this->misc['systran_key']]
         ];
     }
 
@@ -48,17 +52,15 @@ class Systran
 
     function translate($source, $target, $input)
     {
-        if ($this->mtr->arr) {
-            $this->preReq($input);
-        } else {
-            return false;
-        }
-        $this->params['systran']['query'] =
-            ['source' => $source, 'target' => $target];
+        $this->preReq($input);
+
+        $this->params['systran']['query']['source'] = $source;
+        $this->params['systran']['query']['target'] = $target;
 
         list($inputs, $str_ar) = $this->genQ($input, 'genReq');
         $res =
             $this->reqResponse('GET', 'systran', $this->params['systran'], $inputs);
+
         foreach ($res as $re) {
             $translation[] = json_decode($re, true)['outputs'][0]['output'];
         }
@@ -70,15 +72,15 @@ class Systran
 
     }
 
-    function preReq(array &$input)
+    function preReq(&$input)
     {
-        $input = $this->txtrq->pT($input, $this->mtr->arr, $this->misc['glue']);
+        $input = $this->txtrq->pT($input, $this->mtr->arr, $this->misc['glue'], $this->limit, $this->service);
     }
 
     function getLangs()
     {
         $langs = [];
-        $this->params['systran']['query'] = ['target' => 'en'];
+        array_merge($this->params['systran']['query'], ['target' => 'en']);
         foreach (json_decode($this->reqResponse('GET', 'systranL',
             $this->params['systran']), true)['languagePairs'] as $re) {
             $langs[] = $re['source'];

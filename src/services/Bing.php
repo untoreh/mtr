@@ -16,6 +16,9 @@ class Bing
 
     public $mtr;
 
+    private $service = 'bing';
+    private $limit = 4950;
+
     function __construct(
         Mtr &$mtr,
         Client &$gz,
@@ -24,6 +27,7 @@ class Bing
     ) {
         parent::__construct($mtr, $gz, $txtrq, $ld);
 
+        $this->txtrq->setRegex($this->service, $this->limit);
         $this->misc['weight'] = 30;
         $this->misc['glue'] = '; ¶; ';
         $this->misc['splitGlue'] = "/;?\s?¶\s?;\s?/";
@@ -47,13 +51,11 @@ class Bing
 
     function translate($source, $target, $input)
     {
-        $this->mtr->arr = true;
         $this->preReq($input);
 
         if ($source == 'auto') {
             $source = '-';
         }
-
         $this->params['bing'] = array_merge_recursive( $this->params['bing'], [
             'form_params' => [
                  'from' => $source,
@@ -63,7 +65,6 @@ class Bing
         list($inputs, $str_ar) = $this->genQ($input, 'genReq');
 
         $res = $this->reqResponse('POST', 'bing', $this->params['bing'], $inputs);
-
         foreach ($res as $re) {
             $translation[] = json_decode($re, true)['translationResponse'];
         }
@@ -92,7 +93,7 @@ class Bing
     function preReq(&$input)
     {
         $this->genC('bing');
-        $input = $this->txtrq->pT($input, $this->mtr->arr, $this->misc['glue']);
+        $input = $this->txtrq->pT($input, $this->mtr->arr, $this->misc['glue'], $this->limit, $this->service);
     }
 
     function getLangs()

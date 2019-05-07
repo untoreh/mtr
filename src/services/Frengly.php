@@ -16,6 +16,9 @@ class Frengly
     public $mtr;
     public $txtrq;
 
+    private $service = 'frengly';
+    private $limit = 1000;
+
     public function __construct(
         Mtr &$mtr,
         Client &$gz,
@@ -24,8 +27,9 @@ class Frengly
     ) {
         parent::__construct($mtr, $gz, $txtrq, $ld);
 
+        $this->txtrq->setRegex($this->service, $this->limit);
         $this->misc['weight'] = 10;
-        $this->urls['frenglyL'] = 'http://www.frengly.com/translate';
+        $this->urls['frenglyL'] = 'http://www.frengly.com/';
         $this->urls['frenglyL2'] =
             'http://www.frengly.com/frengly/static/langs.json';
         $this->urls['frengly'] = 'http://www.frengly.com/frengly/data/translate/';
@@ -47,14 +51,15 @@ class Frengly
 
     function translate($source, $target, $input)
     {
-        if ($this->mtr->arr) {
-            $this->preReq($input);
-        } else {
-            return false;
-        }
+        $this->preReq($input);
 
         $this->params['frengly']['json'] =
-            ['srcLang' => $source, 'destLang' => $target];
+            [
+                'email' => 'ui@frengly.com',
+                'password' => 'PlsDontBanMe',
+                'src' => $source,
+                'dest' => $target
+            ];
 
         list($inputs, $str_ar) = $this->genQ($input, 'genReq');
         $res =
@@ -82,16 +87,15 @@ class Frengly
         ];
     }
 
-    function preReq(array &$input)
+    function preReq(&$input)
     {
         $this->genC('frengly');
-        $input = $this->txtrq->pT($input, $this->mtr->arr, $this->misc['glue']);
+        $input = $this->txtrq->pT($input, $this->mtr->arr, $this->misc['glue'], $this->limit, $this->service);
     }
 
     function getLangs()
     {
-        return array_keys(json_decode($this->reqResponse('GET', 'frenglyL2'),
-            true)['list']);
+        return array_keys((array)json_decode($this->reqResponse('GET', 'frenglyL2'))->list);
     }
 
 }

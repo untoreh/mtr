@@ -19,23 +19,25 @@ class TextReq
      * @param $input
      * @param $arr
      * @param $glue
+     * @param $service needed to fetch correct regex string
+     * @param $limit max chars for splitting
      * @return array
      * @internal param $string ,array $input text
      */
-    public function pT($input, &$arr, &$glue)
+    public function pT($input, &$arr, &$glue, int $limit = 1000, string $service)
     {
         if (!$arr) {
-            return [[$this->splitP($input, $this->rgxMain)]];
+            return [[$this->splitP($input, $this->rgxService[$service])]];
         }
         $arr_input = $parts = [];
         $chars = $p = $a = 0;
         foreach ($input as $key => $str) {
             $strl = mb_strlen($str);
-            if ($strl > 1024) {
+            if ($strl > $limit) {
                 $arr_input[$p] =
-                    [$key => $this->splitP($input[$key], $this->rgxMain)];
+                    [$key => $this->splitP($input[$key], $this->rgxService[$service])];
                 $p++;
-            } elseif ($chars + $strl > 1024) {
+            } elseif ($chars + $strl > $limit) {
                 foreach ($parts as $kp) {
                     $arr_input[$p][$kp] = &$input[$kp];
                 }
@@ -88,7 +90,12 @@ class TextReq
         //     '\n',
         //     ''
         // ]);
-        $this->rgxMain = '/([\S\s]{1,1000}[\.\;\:\,\!\?\Z][\s]?)/m';
+        $this->rgxMain = "/([\S\s]{1,1000}[\.\;\:\,\!\?\Z][\s]?)/m";
+    }
+
+    public function setRegex(string $service, int $limit = 1000)
+    {
+        $this->rgxService[$service] = "/([\S\s]{1,$limit}[\.\;\:\,\!\?\Z][\s]?)/m";
     }
 
     // private function multiRegex(

@@ -16,6 +16,9 @@ class Promt
     public $mtr;
     public $txtrq;
 
+    private $service = 'promt';
+    private $limit = 3000;
+
     public function __construct(
         Mtr &$mtr,
         Client &$gz,
@@ -24,6 +27,7 @@ class Promt
     ) {
         parent::__construct($mtr, $gz, $txtrq, $ld);
 
+        $this->txtrq->setRegex($this->service, $this->limit);
         $this->misc['weight'] = 10;
         $this->urls['promt'] =
             'http://www.online-translator.com/services/TranslationService.asmx/GetTranslateNew';
@@ -56,11 +60,7 @@ class Promt
 
     function translate($source, $target, $input)
     {
-        if ($this->mtr->arr) {
-            $this->preReq($input);
-        } else {
-            return false;
-        }
+        $this->preReq($input);
 
         $this->params['promt']['json'] =
             array_merge($this->params['promt']['json'],
@@ -81,10 +81,10 @@ class Promt
         return ['json' => ['text' => $params['data']]];
     }
 
-    function preReq(array &$input)
+    function preReq(&$input)
     {
         $this->genC('promt');
-        $input = $this->txtrq->pT($input, $this->mtr->arr, $this->misc['glue']);
+        $input = $this->txtrq->pT($input, $this->mtr->arr, $this->misc['glue'], $this->limit, $this->service);
     }
 
     function getLangs()

@@ -16,6 +16,9 @@ class Multillect
     public $mtr;
     public $txtrq;
 
+    private $service = 'multillect';
+    private $limit = 1000;
+
     public function __construct(
         Mtr &$mtr,
         Client &$gz,
@@ -24,6 +27,7 @@ class Multillect
     ) {
         parent::__construct($mtr, $gz, $txtrq, $ld);
 
+        $this->txtrq->setRegex($this->service, $this->limit);
         $this->misc['weight'] = 10;
         $this->urls['multillectL'] = 'https://translate.multillect.com';
         $this->urls['multillect'] = 'https://translate.multillect.com/form.json';
@@ -33,7 +37,7 @@ class Multillect
                 'Host' => 'translate.multillect.com',
                 'Accept' => 'application/json, text/javascript, */*; q=0.01',
                 'Accept-Language' => 'en-US,en;q=0.5',
-                'Accept-Encoding' => 'gzip, deflate, br',
+                'Accept-Encoding' => 'gzip, deflate',
                 'Referer' => 'https://translate.multillect.com/',
                 'x-requested-with' => 'XMLHttpRequest',
                 'Connection' => 'keep-alive'
@@ -44,11 +48,7 @@ class Multillect
 
     function translate($source, $target, $input)
     {
-        if ($this->mtr->arr) {
-            $this->preReq($input);
-        } else {
-            return false;
-        }
+        $this->preReq($input);
 
         $this->params['multillect']['query'] = ['from' => $source, 'to' => $target];
 
@@ -73,10 +73,10 @@ class Multillect
         return ['query' => ['text' => $params['data']]];
     }
 
-    function preReq(array &$input)
+    function preReq(&$input)
     {
         $this->genC('multillect');
-        $input = $this->txtrq->pT($input, $this->mtr->arr, $this->misc['glue']);
+        $input = $this->txtrq->pT($input, $this->mtr->arr, $this->misc['glue'], $this->limit, $this->service);
     }
 
     function getLangs()

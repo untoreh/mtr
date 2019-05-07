@@ -15,6 +15,9 @@ class Google
     public $mtr;
     public $txtrq;
 
+    private $service = 'google';
+    private $limit = 4950;
+
     function __construct(
         Mtr &$mtr,
         Client &$gz,
@@ -23,6 +26,7 @@ class Google
     ) {
         parent::__construct($mtr, $gz, $txtrq, $ld);
 
+        $this->txtrq->setRegex($this->service, $this->limit);
         $this->misc['weight'] = 30;
         $this->misc['glue'] = ' ; ¶ ; ';
         $this->misc['splitGlue'] = '/\s?;\s?¶\s?;?\s?/';
@@ -70,7 +74,7 @@ class Google
     public function preReq(&$input)
     {
         $this->genC('google');
-        $input = $this->txtrq->pT($input, $this->mtr->arr, $this->misc['glue']);
+        $input = $this->txtrq->pT($input, $this->mtr->arr, $this->misc['glue'], $this->limit, $this->service);
     }
 
     /**
