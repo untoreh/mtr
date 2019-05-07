@@ -114,20 +114,20 @@ class MtrTest
     /* @depends testGeneral
      *
      */
-    public function testConvey()
-    {
-        $results = [];
-        $fields = $this->fields('short', 3);
-        $mtr = new Mtr($fields['options']);
+    // public function testConvey()
+    // {
+    //     $results = [];
+    //     $fields = $this->fields('short', 3);
+    //     $mtr = new Mtr($fields['options']);
 
-        $results =
-            $mtr->tr($fields['source'], $fields['target'], $fields['input'],
-                'convey');
+    //     $results =
+    //         $mtr->tr($fields['source'], $fields['target'], $fields['input'],
+    //             'convey');
 
-        foreach ($results as $key => $v) {
-            $this->assertNotEmpty($v);
-        }
-    }
+    //     foreach ($results as $key => $v) {
+    //         $this->assertNotEmpty($v);
+    //     }
+    // }
 
     /* @depends testGeneral
      *
@@ -186,37 +186,37 @@ class MtrTest
     /* @depends testGeneral
      *
      */
-    public function testPromt()
-    {
-        $results = [];
-        $fields = $this->fields('short', 3);
-        $mtr = new Mtr($fields['options']);
+    // public function testPromt()
+    // {
+    //     $results = [];
+    //     $fields = $this->fields('short', 3);
+    //     $mtr = new Mtr($fields['options']);
 
-        $results =
-            $mtr->tr($fields['source'], $fields['target'], $fields['input'],
-                'promt');
+    //     $results =
+    //         $mtr->tr($fields['source'], $fields['target'], $fields['input'],
+    //             'promt');
 
-        foreach ($results as $key => $v) {
-            $this->assertNotEmpty($v);
-        }
-    }
+    //     foreach ($results as $key => $v) {
+    //         $this->assertNotEmpty($v);
+    //     }
+    // }
 
     /* @depends testGeneral
      *
      */
-    public function testSdl()
-    {
-        $results = [];
-        $fields = $this->fields('short', 3);
-        $mtr = new Mtr($fields['options']);
+    // public function test Sdl()
+    // {
+    //     $results = [];
+    //     $fields = $this->fields('short', 3);
+    //     $mtr = new Mtr($fields['options']);
 
-        $results =
-            $mtr->tr($fields['source'], $fields['target'], $fields['input'], 'sdl');
+    //     $results =
+    //         $mtr->tr($fields['source'], $fields['target'], $fields['input'], 'sdl');
 
-        foreach ($results as $key => $v) {
-            $this->assertNotEmpty($v);
-        }
-    }
+    //     foreach ($results as $key => $v) {
+    //         $this->assertNotEmpty($v);
+    //     }
+    // }
 
     /* @depends testGeneral
      *
@@ -240,23 +240,6 @@ class MtrTest
                 throw $e;
             }
         }
-
-        foreach ($results as $key => $v) {
-            $this->assertNotEmpty($v);
-        }
-    }
-
-    /* @depends testGeneral
-     *
-     */
-    public function testTreu()
-    {
-        $results = [];
-        $fields = $this->fields('short', 3);
-        $mtr = new Mtr($fields['options']);
-
-        $results =
-            $mtr->tr($fields['source'], $fields['target'], $fields['input'], 'treu');
 
         foreach ($results as $key => $v) {
             $this->assertNotEmpty($v);

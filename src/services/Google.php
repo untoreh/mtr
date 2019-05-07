@@ -94,6 +94,22 @@ class Google
         ];
     }
 
+    private function regexJson(&$res, &$epO)
+    {
+        return json_decode(preg_replace(array_keys($epO->misc['googleRegexes']),
+                                        array_values($epO->misc['googleRegexes']), $res));
+    }
+
+    private function trJson(&$bodyJson)
+    {
+        $translation = '';
+        foreach ($bodyJson[0] as $rt) {
+            $translation .= $rt[0];
+        }
+
+        return $translation;
+    }
+
     /**
      *  Google
      *
@@ -105,21 +121,6 @@ class Google
      */
     public function translate($source, $target, $input)
     {
-        function regexJson(&$res, &$epO)
-        {
-            return json_decode(preg_replace(array_keys($epO->misc['googleRegexes']),
-                array_values($epO->misc['googleRegexes']), $res));
-        }
-
-        function trJson(&$bodyJson)
-        {
-            $translation = '';
-            foreach ($bodyJson[0] as $rt) {
-                $translation .= $rt[0];
-            }
-
-            return $translation;
-        }
 
         $this->preReq($input);
         $bodyJson = null;
@@ -132,10 +133,10 @@ class Google
         $res =
             $this->reqResponse('POST', 'google', $this->params['google'], $inputs);
         foreach ($res as $re) {
-            $bodyJson[] = regexJson($re, $this);
+            $bodyJson[] = $this->regexJson($re, $this);
         }
         foreach ($bodyJson as $bJ) {
-            $translation[] = trJson($bJ);
+            $translation[] = $this->trJson($bJ);
         }
         $translated =
             $this->joinTranslated($str_ar, $input, $translation,

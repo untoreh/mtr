@@ -92,6 +92,7 @@ class Yandex
                 apcu_store('mtr_yandex_id', $this->misc['yandexId'], $this->ttl());
             } else {
                 throw new \Exception('Yandex preparation failed.');
+                exit;
             }
         }
 
